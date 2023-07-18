@@ -8,13 +8,16 @@ export class Timeline {
   _id: string;
 
   @Prop()
-  email: string;
+  fecha: Date;
 
   @Prop()
-  username: string;
+  titulo: string;
 
   @Prop()
-  password: string;
+  descripcion: string;
+
+  @Prop()
+  icono: string;
 
   @Prop({
     type: Date,
