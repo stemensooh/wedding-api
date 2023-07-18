@@ -1,12 +1,20 @@
-import { ParametroService } from '@app/db/Parametro/Parametro.service';
-import { Controller, Get } from '@nestjs/common';
+import { ParametroService } from '@app/db/parametro/Parametro.service';
+import { createParametroDto } from '@app/db/parametro/dto/create-parametro.dto';
+import { Body, Controller, Get, Param, Post } from '@nestjs/common';
+import { Public } from 'src/core/constants/jwt.secret';
 
-@Controller('Parametro')
+@Public()
+@Controller('parametro')
 export class ParametroController {
-  constructor(private ParametroService: ParametroService) {}
+  constructor(private parametroService: ParametroService) {}
 
-  @Get()
-  get() {
-    return this.ParametroService.get();
+  @Get(':codigo')
+  async get(@Param('codigo') codigo: string) {
+    return await this.parametroService.get(codigo);
+  }
+
+  @Post()
+  async create(@Body() create: createParametroDto) {
+    return await this.parametroService.create(create);
   }
 }

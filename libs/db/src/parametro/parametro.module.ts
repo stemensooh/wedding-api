@@ -12,4 +12,4 @@ import { Parametro, ParametroSchema } from './schemas/Parametro.schema';
   providers: [ParametroService],
   exports: [ParametroService],
 })
-export class ParametroModule {}
+export class ParametroModuleLib {}

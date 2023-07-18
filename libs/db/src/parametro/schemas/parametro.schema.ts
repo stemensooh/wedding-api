@@ -8,13 +8,13 @@ export class Parametro {
   _id: string;
 
   @Prop()
-  email: string;
+  codigo: String;
 
   @Prop()
-  username: string;
+  descripcion: String;
 
   @Prop()
-  password: string;
+  valor: String;
 
   @Prop({
     type: Date,

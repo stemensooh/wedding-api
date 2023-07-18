@@ -6,8 +6,13 @@ import { HttpExceptionFilter } from './core/filters/http-exception.filter';
 import { AllExceptionsFilter } from './core/filters/all-exception.filter';
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
-
+  const app = await NestFactory.create(AppModule, { cors: false });
+  app.enableCors({
+    origin: '*',
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+    preflightContinue: false,
+    optionsSuccessStatus: 204,
+  });
   const options = new DocumentBuilder()
     .setTitle('Chat example')
     .setDescription('Chat API description')

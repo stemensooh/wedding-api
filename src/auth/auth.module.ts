@@ -3,9 +3,7 @@ import { AuthController } from './auth.controller';
 import { DbModule } from '@app/db';
 
 @Module({
-  imports: [
-    DbModule,
-  ],
+  imports: [DbModule],
   controllers: [AuthController],
 })
 export class AuthModule {}

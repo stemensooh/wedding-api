@@ -1,14 +1,24 @@
-import { Body, Controller, Get, HttpCode, HttpStatus, Post } from '@nestjs/common';
-import { LoginDto } from './dto/login.dto';
-import { Public } from 'src/core/constants/jwt.secret';
-import { RegistroUsuarioDto } from './dto/registro-usuario.dto';
-import configuration from 'src/core/config/configuration';
+import {
+  Body,
+  Controller,
+  Get,
+  HttpCode,
+  HttpStatus,
+  Post,
+} from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { AuthService } from '@app/db/auth/auth.service';
+import { Public } from 'src/core/constants/jwt.secret';
+import { LoginDto } from '@app/db/auth/dto/login.dto';
+import { RegistroUsuarioDto } from '@app/db/auth/dto/registro-usuario.dto';
+import configuration from '@app/db/config/configuration';
 
 @Controller('auth')
 export class AuthController {
-  constructor(private authService: AuthService, private configService: ConfigService) {}
+  constructor(
+    private authService: AuthService,
+    private configService: ConfigService,
+  ) {}
 
   @Public()
   @HttpCode(HttpStatus.OK)
@@ -31,8 +41,7 @@ export class AuthController {
     return {
       configService: this.configService.get<string>('db.mongodb'),
       env: process.env,
-      config: configuration()
+      config: configuration(),
     };
   }
-
 }
