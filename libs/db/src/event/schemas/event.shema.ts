@@ -2,26 +2,23 @@ import { Wedding } from '@app/db/wedding/schemas/wedding.shema';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import mongoose, { HydratedDocument } from 'mongoose';
 
-export type TimelineDocument = HydratedDocument<Timeline>;
+export type EventDocument = HydratedDocument<Event>;
 
 @Schema()
-export class Timeline {
+export class Event {
   _id: string;
-  
+
   @Prop({ type: mongoose.Schema.Types.ObjectId, ref: Wedding.name })
   wedding_id: Wedding
-
-  @Prop()
-  fecha: Date;
 
   @Prop()
   titulo: string;
 
   @Prop()
-  descripcion: string;
+  fecha: Date;
 
   @Prop()
-  icono: string;
+  descripcion: string;
 
   @Prop({
     type: Date,
@@ -30,4 +27,4 @@ export class Timeline {
   createdAt: Date;
 }
 
-export const TimelineSchema = SchemaFactory.createForClass(Timeline);
+export const EventSchema = SchemaFactory.createForClass(Event);

@@ -10,7 +10,7 @@ export class SliderService {
     private sliderModel: Model<Slider>,
   ) {}
 
-  async get(): Promise<Slider[]> {
+  async getAll(): Promise<Slider[]> {
     return this.sliderModel.find().exec();
   }
 }

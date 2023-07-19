@@ -10,7 +10,7 @@ export class GalleryService {
     private galleryModel: Model<Gallery>,
   ) {}
 
-  async get(): Promise<Gallery[]> {
+  async getAll(): Promise<Gallery[]> {
     return this.galleryModel.find().exec();
   }
 }

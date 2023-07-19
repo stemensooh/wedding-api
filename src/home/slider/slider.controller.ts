@@ -9,6 +9,6 @@ export class SliderController {
 
   @Get()
   get() {
-    return this.sliderService.get();
+    return this.sliderService.getAll();
   }
 }

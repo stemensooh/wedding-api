@@ -4,6 +4,13 @@ import { SliderModule } from './slider/slider.module';
 import { GalleryModule } from './gallery/gallery.module';
 import { TimelineModule } from './timeline/timeline.module';
 import { ParametroModuleLib } from './parametro/parametro.module';
+import { HomeService } from './home/home.service';
+import { HomeModule } from './home/home.module';
+import { WeddingModule } from './wedding/wedding.module';
+import { CuplerModule } from './cupler/cupler.module';
+import { EventModule } from './event/event.module';
+import { MapService } from './map/map.service';
+import { MapModule } from './map/map.module';
 
 @Module({
   imports: [
@@ -12,6 +19,11 @@ import { ParametroModuleLib } from './parametro/parametro.module';
     GalleryModule,
     ParametroModuleLib,
     TimelineModule,
+    HomeModule,
+    WeddingModule,
+    CuplerModule,
+    EventModule,
+    MapModule,
   ],
   exports: [
     AuthModule,
@@ -20,5 +32,6 @@ import { ParametroModuleLib } from './parametro/parametro.module';
     ParametroModuleLib,
     TimelineModule,
   ],
+  providers: [HomeService, MapService],
 })
 export class DbModule {}

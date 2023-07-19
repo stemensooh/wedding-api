@@ -11,11 +11,16 @@ export class ParametroService {
     private parametroModel: Model<Parametro>,
   ) {}
 
-  async get(codigo: string): Promise<Parametro[]> {
+  async getAll(codigo: string): Promise<Parametro[]> {
     const data = await this.parametroModel.find({ codigo: codigo }).exec();
     if (!data) {
       return [];
     }
+    return data;
+  }
+
+  async get(codigo: string): Promise<Parametro> {
+    const data = await this.parametroModel.findOne({ codigo: codigo }).exec();
     return data;
   }
 

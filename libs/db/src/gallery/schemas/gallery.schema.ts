@@ -1,5 +1,6 @@
+import { Wedding } from '@app/db/wedding/schemas/wedding.shema';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { HydratedDocument } from 'mongoose';
+import mongoose, { HydratedDocument } from 'mongoose';
 
 export type GalleryDocument = HydratedDocument<Gallery>;
 
@@ -7,14 +8,14 @@ export type GalleryDocument = HydratedDocument<Gallery>;
 export class Gallery {
   _id: string;
 
-  @Prop()
-  email: string;
+  @Prop({ type: mongoose.Schema.Types.ObjectId, ref: Wedding.name })
+  wedding_id: Wedding
 
   @Prop()
-  username: string;
+  titulo: string;
 
   @Prop()
-  password: string;
+  foto: string;
 
   @Prop({
     type: Date,

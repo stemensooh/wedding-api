@@ -5,6 +5,7 @@ import { SliderModule } from './slider/slider.module';
 import { GalleryModule } from './gallery/gallery.module';
 import { ParametroModule } from './parametro/parametro.module';
 import { TimelineModule } from './timeline/timeline.module';
+import { HomeController } from './home.controller';
 
 @Module({
   imports: [
@@ -19,5 +20,6 @@ import { TimelineModule } from './timeline/timeline.module';
       useClass: AuthGuard,
     },
   ],
+  controllers: [HomeController],
 })
 export class HomeModule {}
