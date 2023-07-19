@@ -3,7 +3,7 @@ import { APP_GUARD } from '@nestjs/core';
 import { AuthGuard } from 'src/core/guards/auth.guard';
 import { SliderModule } from './slider/slider.module';
 import { GalleryModule } from './gallery/gallery.module';
-import { ParametroModule } from './Parametro/Parametro.module';
+import { ParametroModule } from './parametro/parametro.module';
 import { TimelineModule } from './timeline/timeline.module';
 
 @Module({

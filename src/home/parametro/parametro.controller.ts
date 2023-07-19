@@ -1,4 +1,4 @@
-import { ParametroService } from '@app/db/parametro/Parametro.service';
+import { ParametroService } from '@app/db/parametro/parametro.service';
 import { createParametroDto } from '@app/db/parametro/dto/create-parametro.dto';
 import { Body, Controller, Get, Param, Post } from '@nestjs/common';
 import { Public } from 'src/core/constants/jwt.secret';

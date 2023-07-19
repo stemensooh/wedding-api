@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
-import { ParametroService } from './Parametro.service';
+import { ParametroService } from './parametro.service';
 import { MongooseModule } from '@nestjs/mongoose';
-import { Parametro, ParametroSchema } from './schemas/Parametro.schema';
+import { Parametro, ParametroSchema } from './schemas/parametro.schema';
 
 @Module({
   imports: [
