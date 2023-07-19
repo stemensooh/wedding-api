@@ -2,14 +2,14 @@ import { Wedding } from '@app/db/wedding/schemas/wedding.shema';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import mongoose, { HydratedDocument } from 'mongoose';
 
-export type MapDocument = HydratedDocument<Map>;
+export type MapCustomDocument = HydratedDocument<MapCustom>;
 
 @Schema()
-export class Map {
+export class MapCustom {
   _id: string;
 
   @Prop({ type: mongoose.Schema.Types.ObjectId, ref: Wedding.name })
-  wedding_id: Wedding
+  weddingId: Wedding
 
   @Prop()
   descripcion: string;
@@ -27,4 +27,4 @@ export class Map {
   createdAt: Date;
 }
 
-export const MapSchema = SchemaFactory.createForClass(Map);
+export const MapCustomSchema = SchemaFactory.createForClass(MapCustom);

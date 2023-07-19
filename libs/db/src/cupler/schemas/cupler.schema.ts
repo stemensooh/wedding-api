@@ -6,34 +6,34 @@ export type CuplerDocument = HydratedDocument<Cupler>;
 
 @Schema()
 export class Cupler {
-  _id: string;
+  _id: String;
 
   @Prop({ type: mongoose.Schema.Types.ObjectId, ref: Wedding.name })
-  wedding_id: Wedding
+  weddingId: Wedding
 
   @Prop()
-  novio_nombre: string;
+  novioNombre: String;
 
   @Prop()
-  novio_apellido: string;
+  novioApellido: String;
 
   @Prop()
-  novio_foto: string;
+  novioFoto: String;
 
   @Prop()
-  novio_descripcion: string;
+  novioDescripcion: String;
 
   @Prop()
-  novia_nombre: string;
+  noviaNombre: String;
 
   @Prop()
-  novia_apellido: string;
+  noviaApellido: String;
 
   @Prop()
-  novia_foto: string;
+  noviaFoto: String;
 
   @Prop()
-  novia_descripcion: string;
+  noviaDescripcion: String;
 
   @Prop({
     type: Date,

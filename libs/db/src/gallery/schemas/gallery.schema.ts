@@ -9,7 +9,7 @@ export class Gallery {
   _id: string;
 
   @Prop({ type: mongoose.Schema.Types.ObjectId, ref: Wedding.name })
-  wedding_id: Wedding
+  weddingId: Wedding
 
   @Prop()
   titulo: string;

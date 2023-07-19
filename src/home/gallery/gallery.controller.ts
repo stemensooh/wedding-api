@@ -9,6 +9,6 @@ export class GalleryController {
 
   @Get()
   get() {
-    return this.galleryService.get();
+    return this.galleryService.getAll();
   }
 }
