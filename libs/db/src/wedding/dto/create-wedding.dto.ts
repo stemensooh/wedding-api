@@ -6,6 +6,7 @@ import { CreateSliderDto } from "@app/db/slider/dto/create-slider.dto";
 import { CreateLineDto } from "@app/db/timeline/dto/create-line.dto";
 
 export class CreateWeddingDto {
+    titulo: string;
     fecha: Date;
     resumen: string;
     mensaje: string;

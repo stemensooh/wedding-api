@@ -11,6 +11,9 @@ export class Wedding {
   _id: string;
 
   @Prop()
+  titulo: string;
+  
+  @Prop()
   fecha: Date;
 
   @Prop()

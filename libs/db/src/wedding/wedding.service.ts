@@ -13,6 +13,58 @@ import { ObjectId } from 'mongodb';
 
 @Injectable()
 export class WeddingService {
+
+  lookup: any[] = [
+    {
+      $lookup: {
+        from: 'cuplers',
+        localField: '_id',
+        foreignField: 'weddingId',
+        as: 'cupler',
+      },
+    },
+    {
+      $lookup: {
+        from: 'sliders',
+        localField: '_id',
+        foreignField: 'weddingId',
+        as: 'sliders',
+      },
+    },
+    {
+      $lookup: {
+        from: 'galleries',
+        localField: '_id',
+        foreignField: 'weddingId',
+        as: 'galleries',
+      },
+    },
+    {
+      $lookup: {
+        from: 'eventcustoms',
+        localField: '_id',
+        foreignField: 'weddingId',
+        as: 'events',
+      },
+    },
+    {
+      $lookup: {
+        from: 'timelines',
+        localField: '_id',
+        foreignField: 'weddingId',
+        as: 'timelines',
+      },
+    },
+    {
+      $lookup: {
+        from: 'mapcustoms',
+        localField: '_id',
+        foreignField: 'weddingId',
+        as: 'maps',
+      },
+    },
+  ];
+
   constructor(
     @InjectModel(Wedding.name)
     private weddingModel: Model<Wedding>,
@@ -37,7 +89,11 @@ export class WeddingService {
   ) {}
 
   async getAll() {
-    return await this.weddingModel.aggregate([
+    return await this.weddingModel.aggregate(this.lookup);
+  }
+
+  async getTitulo(titulo: string){
+    const result = await this.weddingModel.aggregate([
       {
         $lookup: {
           from: 'cuplers',
@@ -86,10 +142,15 @@ export class WeddingService {
           as: 'maps',
         },
       },
+      {
+        $match: { titulo: titulo },
+      },
     ]);
+
+    return result?.[0];
   }
 
-  async get(id: string) {
+  async getId(id: string) {
     const result = await this.weddingModel.aggregate([
       {
         $lookup: {

@@ -15,7 +15,12 @@ export class WeddingController {
 
   @Get(':id')
   async getId(@Param('id') id: string) {
-    return await this.weddingService.get(id);
+    return await this.weddingService.getId(id);
+  }
+
+  @Get('titulo/:titulo')
+  async getTitulo(@Param('titulo') titulo: string) {
+    return await this.weddingService.getTitulo(titulo);
   }
 
   @Post()
