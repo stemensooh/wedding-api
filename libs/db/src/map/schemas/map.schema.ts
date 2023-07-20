@@ -15,7 +15,10 @@ export class MapCustom {
   descripcion: string;
 
   @Prop()
-  coordenadas: string;
+  lat: number;
+
+  @Prop()
+  lng: number;
 
   @Prop()
   mensaje: string;

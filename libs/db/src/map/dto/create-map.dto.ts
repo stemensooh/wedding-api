@@ -1,6 +1,7 @@
 export class CreateMap {
     weddingId: string;
     descripcion: string;
-    coordenadas: string;
+    lat: number;
+    lng: number;
     mensaje: string;
 }
