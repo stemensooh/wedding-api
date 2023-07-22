@@ -7,11 +7,11 @@ import {
   Post,
 } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import { AuthService } from '@app/db/auth/auth.service';
+import { AuthService } from '@app/db2/auth/auth.service';
 import { Public } from 'src/core/constants/jwt.secret';
-import { LoginDto } from '@app/db/auth/dto/login.dto';
-import { RegistroUsuarioDto } from '@app/db/auth/dto/registro-usuario.dto';
-import configuration from '@app/db/config/configuration';
+import { LoginDto } from '@app/db2/auth/dto/login.dto';
+import { RegistroUsuarioDto } from '@app/db2/auth/dto/registro-usuario.dto';
+import configuration from '@app/db2/config/configuration';
 
 @Controller('auth')
 export class AuthController {

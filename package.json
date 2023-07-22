@@ -84,7 +84,7 @@
       "<rootDir>/libs/"
     ],
     "moduleNameMapper": {
-      "^@app/db(|/.*)$": "<rootDir>/libs/db/src/$1"
+      "^@app/db2(|/.*)$": "<rootDir>/libs/db2/src/$1"
     }
   }
 }
