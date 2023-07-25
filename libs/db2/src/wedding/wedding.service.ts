@@ -178,12 +178,12 @@ export class WeddingService {
     await this.TestimonialModel.deleteMany({ weddingId: update._id });
     await this.TestimonialModel.insertMany(update.testimonial);
     //******************************************************************************** */
-    if (update.nav._id) {
-      const nav = new this.NavCustomModel(update.nav);
-      await nav.save();
-    } else {
-      await this.NavCustomModel.findByIdAndUpdate(update.nav._id, update.nav);
-    }
+    // if (update.nav._id) {
+    //   const nav = new this.NavCustomModel(update.nav);
+    //   await nav.save();
+    // } else {
+    //   await this.NavCustomModel.findByIdAndUpdate(update.nav._id, update.nav);
+    // }
 
     //******************************************************************************** */
     if (!update.header._id) {
