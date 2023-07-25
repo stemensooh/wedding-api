@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { Wedding } from './schemas/wedding.shema';
@@ -16,7 +16,6 @@ import { WeddingRequestDto } from './dto/wedding-request.dto';
 
 @Injectable()
 export class WeddingService {
-
   lookup: any[] = [
     {
       $lookup: {
@@ -93,7 +92,6 @@ export class WeddingService {
         as: 'whens',
       },
     },
-
   ];
 
   constructor(
@@ -126,14 +124,13 @@ export class WeddingService {
 
     @InjectModel(When.name)
     private WhenModel: Model<When>,
-
   ) {}
 
   async getAll() {
     return await this.weddingModel.aggregate(this.lookup);
   }
 
-  async getTitulo(titulo: string){
+  async getTitulo(titulo: string) {
     const result = await this.weddingModel.aggregate([
       ...this.lookup,
       {
@@ -155,13 +152,95 @@ export class WeddingService {
     return result?.[0];
   }
 
+  async update(update: WeddingRequestDto) {
+
+    const existe = await this.weddingModel.findById(update._id).exec();
+    if (!existe) {
+      throw new BadRequestException('El perfil no se encuentra registrado');
+    }
+
+    // const req = new Wedding();
+    // req.tituloPagina = update.header.tituloPagina;
+
+    // const wedding = new this.weddingModel(req);
+    // await this.weddingModel.findByIdAndUpdate(wedding);
+
+    //******************************************************************************** */
+    await this.GalleryModel.deleteMany({ weddingId: update._id });
+    await this.GalleryModel.insertMany(update.gallery);
+    //******************************************************************************** */
+    await this.BlogModel.deleteMany({ weddingId: update._id });
+    await this.BlogModel.insertMany(update.blog);
+    //******************************************************************************** */
+    await this.WhenModel.deleteMany({ weddingId: update._id });
+    await this.WhenModel.insertMany(update.when);
+    //******************************************************************************** */
+    await this.TestimonialModel.deleteMany({ weddingId: update._id });
+    await this.TestimonialModel.insertMany(update.testimonial);
+    //******************************************************************************** */
+    if (update.nav._id) {
+      const nav = new this.NavCustomModel(update.nav);
+      await nav.save();
+    } else {
+      await this.NavCustomModel.findByIdAndUpdate(update.nav._id, update.nav);
+    }
+
+    //******************************************************************************** */
+    if (!update.header._id) {
+      const header = new this.HeaderModel(update.header);
+      await header.save();
+    } else {
+      await this.HeaderModel.findByIdAndUpdate(
+        update.header._id,
+        update.header,
+      );
+    }
+    //******************************************************************************** */
+
+    if (!update.about._id) {
+      const about = new this.aboutModel(update.about);
+      await about.save();
+    } else {
+      await this.aboutModel.findByIdAndUpdate(update.about._id, update.about);
+    }
+    //******************************************************************************** */
+
+    if (!update.banner._id) {
+      const banner = new this.bannerModel(update.banner);
+      await banner.save();
+    } else {
+      await this.bannerModel.findByIdAndUpdate(
+        update.banner._id,
+        update.banner,
+      );
+    }
+    //******************************************************************************** */
+
+    if (!update.countdown._id) {
+      const countdown = new this.CountDownModel(update.countdown);
+      await countdown.save();
+    } else {
+      await this.CountDownModel.findByIdAndUpdate(
+        update.countdown._id,
+        update.countdown,
+      );
+    }
+
+    //******************************************************************************** */
+
+    return this.getId(update._id);
+  }
+
   async create(create: WeddingRequestDto) {
     const req = new Wedding();
     req.tituloPagina = create.header.tituloPagina;
 
-    const existe = this.weddingModel.findOne({tituloPagina: req.tituloPagina}).exec();
-    if (existe) {
+    const existe = await this.weddingModel
+      .findOne({ tituloPagina: req.tituloPagina })
+      .exec();
 
+    if (existe) {
+      throw new BadRequestException('El titulo ya se encuentra registrado');
     }
 
     const wedding = new this.weddingModel(req);
@@ -171,25 +250,25 @@ export class WeddingService {
       item.weddingId = wedding.id;
       return item;
     });
-    const gallery = await this.GalleryModel.insertMany(newGallery);
+    await this.GalleryModel.insertMany(newGallery);
     //******************************************************************************** */
     const newblog = create.blog.map((item) => {
       item.weddingId = wedding.id;
       return item;
     });
-    const blog = await this.BlogModel.insertMany(newblog);
+    await this.BlogModel.insertMany(newblog);
     //******************************************************************************** */
     const newwhen = create.when.map((item) => {
       item.weddingId = wedding.id;
       return item;
     });
-    const when = await this.WhenModel.insertMany(newwhen);
+    await this.WhenModel.insertMany(newwhen);
     //******************************************************************************** */
     const newtestimonial = create.testimonial.map((item) => {
       item.weddingId = wedding.id;
       return item;
     });
-    const testimonial = await this.TestimonialModel.insertMany(newtestimonial);
+    await this.TestimonialModel.insertMany(newtestimonial);
     //******************************************************************************** */
     create.nav.weddingId = wedding.id;
     const nav = new this.NavCustomModel(create.nav);
@@ -211,22 +290,8 @@ export class WeddingService {
     const countdown = new this.CountDownModel(create.countdown);
     await countdown.save();
     //******************************************************************************** */
-    
 
-    return [
-      wedding,
-      header,
-      about,
-      countdown,
-      blog,
-      gallery,
-      when,
-      banner,
-      nav,
-      testimonial
-    ] ;
-
-
+    return await this.getId(wedding._id);
   }
 
   /*

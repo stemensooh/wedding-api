@@ -5,6 +5,7 @@ import { TestimonioDto } from './testimonio.dtp';
 import { WhenDto } from './when.dto';
 
 export interface WeddingRequestDto {
+  _id: string;
   nav: NavRequestDto;
   header: HeaderRequestDto;
   about: AboutRequestDto;
@@ -17,6 +18,7 @@ export interface WeddingRequestDto {
 }
 
 export interface NavRequestDto {
+  _id: string;
   weddingId: string;
   foto: string;
     //foto: ImagenDto;
@@ -24,6 +26,7 @@ export interface NavRequestDto {
 }
 
 export interface HeaderRequestDto {
+  _id: string;
   weddingId: string;
   tituloPagina: string;
   mensaje: string;
@@ -32,6 +35,7 @@ export interface HeaderRequestDto {
 }
 
 export interface AboutRequestDto {
+  _id: string;
   weddingId: string;
   foto: string;
     //foto: ImagenDto;
@@ -39,6 +43,7 @@ export interface AboutRequestDto {
 }
 
 export interface BannerRequestDto {
+  _id: string;
   weddingId: string;
   nombreNovia: string;
   nombreNovio: string;
@@ -49,8 +54,9 @@ export interface BannerRequestDto {
 }
 
 export interface CountdownRequestDto {
+  _id: string;
   weddingId: string;
-  fecha: Date;
+  fecha: string;
   hora: string;
   direccion: string;
   url: string;

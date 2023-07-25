@@ -11,7 +11,7 @@ export class CountDown {
 
   @Prop({ type: mongoose.Schema.Types.ObjectId, ref: Wedding.name })
   weddingId: Wedding;
-  @Prop() fecha: Date;
+  @Prop() fecha: string;
   @Prop() hora: string;
   @Prop() direccion: string;
   @Prop() url: string;

@@ -13,7 +13,7 @@ export class Blog {
   weddingId: Wedding;
   
   @Prop() titulo: string;
-  @Prop() fecha: Date;
+  @Prop() fecha: string;
   @Prop() lugar: string;
   @Prop() descripcion: string;
   // @Prop({ type: mongoose.Schema.Types.ObjectId, ref: Imagen.name })

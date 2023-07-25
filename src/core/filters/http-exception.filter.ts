@@ -11,7 +11,9 @@ export class HttpExceptionFilter implements ExceptionFilter {
 
     console.log('exception', exception.getResponse());
 
-    return response.status(status).send(exception.getResponse());
+    return response
+    .status(status)
+    .send(exception.getResponse());
     // response
     //   .status(status)
     //   .send({

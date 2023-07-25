@@ -1,9 +1,10 @@
 import { ImagenDto } from "./imagen.dto";
 
 export class BlogDto {
+    _id?: string;
     weddingId!: string;
     titulo!: string;
-    fecha!: Date;
+    fecha!: string;
     lugar!: string;
     descripcion!: string;
     foto!: string;
