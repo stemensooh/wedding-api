@@ -153,7 +153,6 @@ export class WeddingService {
   }
 
   async update(update: WeddingRequestDto) {
-
     const existe = await this.weddingModel.findById(update._id).exec();
     if (!existe) {
       throw new BadRequestException('El perfil no se encuentra registrado');
@@ -178,12 +177,12 @@ export class WeddingService {
     await this.TestimonialModel.deleteMany({ weddingId: update._id });
     await this.TestimonialModel.insertMany(update.testimonial);
     //******************************************************************************** */
-    // if (update.nav._id) {
-    //   const nav = new this.NavCustomModel(update.nav);
-    //   await nav.save();
-    // } else {
-    //   await this.NavCustomModel.findByIdAndUpdate(update.nav._id, update.nav);
-    // }
+    if (!update.nav._id) {
+      const nav = new this.NavCustomModel(update.nav);
+      await nav.save();
+    } else {
+      await this.NavCustomModel.findByIdAndUpdate(update.nav._id, update.nav);
+    }
 
     //******************************************************************************** */
     if (!update.header._id) {
