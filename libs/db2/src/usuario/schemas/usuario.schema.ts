@@ -9,10 +9,13 @@ export class Usuario {
   _id: string;
 
   @Prop()
-  email: string;
+  name: string;
 
   @Prop()
-  username: string;
+  lastName: string;
+
+  @Prop()
+  email: string;
 
   @Prop()
   password: string;

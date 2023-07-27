@@ -13,17 +13,12 @@ export class UsuarioService {
     private usuarioModel: Model<Usuario>,
   ) {}
 
-  async findOne(username: string): Promise<Usuario> {
-    const datos = await this.usuarioModel.find({ username: username });
-    return datos?.[0];
+  async findOne(email: string): Promise<Usuario> {
+    return await this.usuarioModel.findOne({ email: email });
   }
 
-  async validarExistencia(username: string, email: string): Promise<Usuario> {
-    const datos = await this.usuarioModel.find({
-      username: username,
-      email: email,
-    });
-    return datos?.[0];
+  async validarExistencia(email: string): Promise<Usuario> {
+    return await this.usuarioModel.findOne({ email: email });
   }
 
   async crearUsuario(usuario: RegistroUsuarioDto): Promise<Usuario> {
