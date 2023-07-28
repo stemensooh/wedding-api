@@ -158,6 +158,22 @@ export class WeddingService {
       throw new BadRequestException('El perfil no se encuentra registrado');
     }
 
+    if (existe.tituloPagina != update.header.tituloPagina) {
+      const existeTitulo = await this.weddingModel
+        .find({ tituloPagina: update.header.tituloPagina })
+        .exec();
+
+      if (existeTitulo.length > 0) {
+        const existeRepetido = existeTitulo.filter((x) => x.id !== update._id);
+        if (existeRepetido.length > 0) {
+          throw new BadRequestException('El titulo ya se encuentra registrado');
+        }
+      }
+    }
+    console.log(update._id);
+    existe.tituloPagina = update.header.tituloPagina;
+    await this.weddingModel.findByIdAndUpdate(update._id, existe);
+
     // const req = new Wedding();
     // req.tituloPagina = update.header.tituloPagina;
 

@@ -5,11 +5,13 @@ import { UsuarioService } from './usuario.service';
 import { JwtModule } from '@nestjs/jwt';
 import { ConfigType } from '@nestjs/config';
 import configuration from '../config/configuration';
+import { Wedding, WeddingSchema } from '../wedding/schemas/wedding.shema';
 
 @Module({
   imports: [
     MongooseModule.forFeature([
-      { name: Usuario.name, schema: UsuarioSchema }
+      { name: Usuario.name, schema: UsuarioSchema },
+      { name: Wedding.name, schema: WeddingSchema },
     ]),
     JwtModule.registerAsync({
       inject: [configuration.KEY],
