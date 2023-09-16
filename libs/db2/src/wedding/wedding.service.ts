@@ -13,6 +13,8 @@ import { NavCustom } from './schemas/nav.schema';
 import { Testimonial } from './schemas/testimonial.schema';
 import { When } from './schemas/when.schema';
 import { WeddingRequestDto } from './dto/wedding-request.dto';
+import { UploadApiOptions, v2 as cloudinary } from 'cloudinary';
+import configuration from '@app/db2/config/configuration';
 
 @Injectable()
 export class WeddingService {
@@ -124,7 +126,13 @@ export class WeddingService {
 
     @InjectModel(When.name)
     private WhenModel: Model<When>,
-  ) {}
+  ) {
+    cloudinary.config({
+      cloud_name: configuration().CLOUDINARY.NAME,
+      api_key: configuration().CLOUDINARY.API_KEY,
+      api_secret: configuration().CLOUDINARY.API_SECRET,
+    });
+  }
 
   async getAll() {
     return await this.weddingModel.aggregate(this.lookup);
@@ -153,6 +161,8 @@ export class WeddingService {
   }
 
   async update(update: WeddingRequestDto) {
+    update = await this.validarImagenes(update);
+
     const existe = await this.weddingModel.findById(update._id).exec();
     if (!existe) {
       throw new BadRequestException('El perfil no se encuentra registrado');
@@ -170,7 +180,7 @@ export class WeddingService {
         }
       }
     }
-    console.log(update._id);
+    // console.log(update._id);
     existe.tituloPagina = update.header.tituloPagina;
     await this.weddingModel.findByIdAndUpdate(update._id, existe);
 
@@ -180,73 +190,76 @@ export class WeddingService {
     // const wedding = new this.weddingModel(req);
     // await this.weddingModel.findByIdAndUpdate(wedding);
 
-    //******************************************************************************** */
-    await this.GalleryModel.deleteMany({ weddingId: update._id });
-    await this.GalleryModel.insertMany(update.gallery);
-    //******************************************************************************** */
-    await this.BlogModel.deleteMany({ weddingId: update._id });
-    await this.BlogModel.insertMany(update.blog);
-    //******************************************************************************** */
-    await this.WhenModel.deleteMany({ weddingId: update._id });
-    await this.WhenModel.insertMany(update.when);
-    //******************************************************************************** */
-    await this.TestimonialModel.deleteMany({ weddingId: update._id });
-    await this.TestimonialModel.insertMany(update.testimonial);
-    //******************************************************************************** */
-    if (!update.nav._id) {
-      const nav = new this.NavCustomModel(update.nav);
-      await nav.save();
-    } else {
-      await this.NavCustomModel.findByIdAndUpdate(update.nav._id, update.nav);
-    }
+    setTimeout(async () => {
+      //******************************************************************************** */
+      await this.GalleryModel.deleteMany({ weddingId: update._id });
+      await this.GalleryModel.insertMany(update.gallery);
+      //******************************************************************************** */
+      await this.BlogModel.deleteMany({ weddingId: update._id });
+      await this.BlogModel.insertMany(update.blog);
+      //******************************************************************************** */
+      await this.WhenModel.deleteMany({ weddingId: update._id });
+      await this.WhenModel.insertMany(update.when);
+      //******************************************************************************** */
+      await this.TestimonialModel.deleteMany({ weddingId: update._id });
+      await this.TestimonialModel.insertMany(update.testimonial);
+      //******************************************************************************** */
+      if (!update.nav._id) {
+        const nav = new this.NavCustomModel(update.nav);
+        await nav.save();
+      } else {
+        await this.NavCustomModel.findByIdAndUpdate(update.nav._id, update.nav);
+      }
 
-    //******************************************************************************** */
-    if (!update.header._id) {
-      const header = new this.HeaderModel(update.header);
-      await header.save();
-    } else {
-      await this.HeaderModel.findByIdAndUpdate(
-        update.header._id,
-        update.header,
-      );
-    }
-    //******************************************************************************** */
+      //******************************************************************************** */
+      if (!update.header._id) {
+        const header = new this.HeaderModel(update.header);
+        await header.save();
+      } else {
+        await this.HeaderModel.findByIdAndUpdate(
+          update.header._id,
+          update.header,
+        );
+      }
+      //******************************************************************************** */
 
-    if (!update.about._id) {
-      const about = new this.aboutModel(update.about);
-      await about.save();
-    } else {
-      await this.aboutModel.findByIdAndUpdate(update.about._id, update.about);
-    }
-    //******************************************************************************** */
+      if (!update.about._id) {
+        const about = new this.aboutModel(update.about);
+        await about.save();
+      } else {
+        await this.aboutModel.findByIdAndUpdate(update.about._id, update.about);
+      }
+      //******************************************************************************** */
 
-    if (!update.banner._id) {
-      const banner = new this.bannerModel(update.banner);
-      await banner.save();
-    } else {
-      await this.bannerModel.findByIdAndUpdate(
-        update.banner._id,
-        update.banner,
-      );
-    }
-    //******************************************************************************** */
+      if (!update.banner._id) {
+        const banner = new this.bannerModel(update.banner);
+        await banner.save();
+      } else {
+        await this.bannerModel.findByIdAndUpdate(
+          update.banner._id,
+          update.banner,
+        );
+      }
+      //******************************************************************************** */
 
-    if (!update.countdown._id) {
-      const countdown = new this.CountDownModel(update.countdown);
-      await countdown.save();
-    } else {
-      await this.CountDownModel.findByIdAndUpdate(
-        update.countdown._id,
-        update.countdown,
-      );
-    }
+      if (!update.countdown._id) {
+        const countdown = new this.CountDownModel(update.countdown);
+        await countdown.save();
+      } else {
+        await this.CountDownModel.findByIdAndUpdate(
+          update.countdown._id,
+          update.countdown,
+        );
+      }
 
-    //******************************************************************************** */
-
+      //******************************************************************************** */
+    }, 3000);
     return this.getId(update._id);
   }
 
   async create(create: WeddingRequestDto) {
+    create = await this.validarImagenes(create);
+
     const req = new Wedding();
     req.tituloPagina = create.header.tituloPagina;
 
@@ -260,53 +273,98 @@ export class WeddingService {
 
     const wedding = new this.weddingModel(req);
     await wedding.save();
-    //******************************************************************************** */
-    const newGallery = create.gallery.map((item) => {
-      item.weddingId = wedding.id;
-      return item;
-    });
-    await this.GalleryModel.insertMany(newGallery);
-    //******************************************************************************** */
-    const newblog = create.blog.map((item) => {
-      item.weddingId = wedding.id;
-      return item;
-    });
-    await this.BlogModel.insertMany(newblog);
-    //******************************************************************************** */
-    const newwhen = create.when.map((item) => {
-      item.weddingId = wedding.id;
-      return item;
-    });
-    await this.WhenModel.insertMany(newwhen);
-    //******************************************************************************** */
-    const newtestimonial = create.testimonial.map((item) => {
-      item.weddingId = wedding.id;
-      return item;
-    });
-    await this.TestimonialModel.insertMany(newtestimonial);
-    //******************************************************************************** */
-    create.nav.weddingId = wedding.id;
-    const nav = new this.NavCustomModel(create.nav);
-    await nav.save();
-    //******************************************************************************** */
-    create.header.weddingId = wedding.id;
-    const header = new this.HeaderModel(create.header);
-    await header.save();
-    //******************************************************************************** */
-    create.about.weddingId = wedding.id;
-    const about = new this.aboutModel(create.about);
-    await about.save();
-    //******************************************************************************** */
-    create.banner.weddingId = wedding.id;
-    const banner = new this.bannerModel(create.banner);
-    await banner.save();
-    //******************************************************************************** */
-    create.countdown.weddingId = wedding.id;
-    const countdown = new this.CountDownModel(create.countdown);
-    await countdown.save();
-    //******************************************************************************** */
 
+    setTimeout(async () => {
+      //******************************************************************************** */
+      const newGallery = create.gallery.map((item) => {
+        item.weddingId = wedding.id;
+        return item;
+      });
+      await this.GalleryModel.insertMany(newGallery);
+      //******************************************************************************** */
+      const newblog = create.blog.map((item) => {
+        item.weddingId = wedding.id;
+        return item;
+      });
+      await this.BlogModel.insertMany(newblog);
+      //******************************************************************************** */
+      const newwhen = create.when.map((item) => {
+        item.weddingId = wedding.id;
+        return item;
+      });
+      await this.WhenModel.insertMany(newwhen);
+      //******************************************************************************** */
+      const newtestimonial = create.testimonial.map((item) => {
+        item.weddingId = wedding.id;
+        return item;
+      });
+      await this.TestimonialModel.insertMany(newtestimonial);
+      //******************************************************************************** */
+      create.nav.weddingId = wedding.id;
+      const nav = new this.NavCustomModel(create.nav);
+      await nav.save();
+      //******************************************************************************** */
+      create.header.weddingId = wedding.id;
+      const header = new this.HeaderModel(create.header);
+      await header.save();
+      //******************************************************************************** */
+      create.about.weddingId = wedding.id;
+      const about = new this.aboutModel(create.about);
+      await about.save();
+      //******************************************************************************** */
+      create.banner.weddingId = wedding.id;
+      const banner = new this.bannerModel(create.banner);
+      await banner.save();
+      //******************************************************************************** */
+      create.countdown.weddingId = wedding.id;
+      const countdown = new this.CountDownModel(create.countdown);
+      await countdown.save();
+      //******************************************************************************** */
+    }, 3000);
     return await this.getId(wedding._id);
+  }
+
+  async validarImagenes(model: WeddingRequestDto) {
+    model.nav.foto = await this.validarImagen('nav', model.nav.foto);
+    model.header.foto = await this.validarImagen('header', model.header.foto);
+    model.about.foto = await this.validarImagen('about', model.about.foto);
+
+    model.gallery.forEach(async (item, index) => {
+      item.archivo = await this.validarImagen(`gallery-${index}`, item.archivo);
+    });
+
+    model.blog.forEach(async (item, index) => {
+      item.foto = await this.validarImagen(`blog-${index}`, item.foto);
+    });
+
+    return model;
+  }
+
+  async validarImagen(content: string, imagen: string) {
+    const options: UploadApiOptions = {
+      use_filename: true,
+      unique_filename: false,
+      overwrite: true,
+      folder: 'wedding',
+      // access_mode: 'authenticated',
+    };
+
+    if (imagen.includes('data:')) {
+      try {
+        const result = await cloudinary.uploader.upload(imagen, options);
+        console.log(content, result);
+
+        // const mode = await cloudinary.api.update_resources_access_mode_by_ids('authenticated', [result.public_id] )
+        // console.log('access_mode', mode);
+
+        return result.secure_url;
+      } catch (error) {
+        console.error(error);
+      }
+    } else {
+      console.log(content, imagen);
+      return imagen;
+    }
   }
 
   /*

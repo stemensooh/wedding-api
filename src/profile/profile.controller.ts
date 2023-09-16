@@ -13,6 +13,12 @@ export class ProfileController {
     return await this.weddingService.create(create);
   }
 
+  @Post('validar')
+  async validarImagen(@Body() req: {imagen: string}) {
+    // console.log(req);
+    return await this.weddingService.validarImagen('', req.imagen);
+  }
+
   @Put()
   async update(@Body() update: WeddingRequestDto) {
     return await this.weddingService.update(update);
