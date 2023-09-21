@@ -5,4 +5,5 @@ export class WhenDto {
     titulo!: string;
     hora!: string;
     descripcion!: string;
+    ubicacion!: string;
 }

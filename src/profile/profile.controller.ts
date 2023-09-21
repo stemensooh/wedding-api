@@ -15,7 +15,6 @@ export class ProfileController {
 
   @Post('validar')
   async validarImagen(@Body() req: {imagen: string}) {
-    // console.log(req);
     return await this.weddingService.validarImagen('', req.imagen);
   }
 

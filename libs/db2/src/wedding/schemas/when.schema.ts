@@ -14,6 +14,7 @@ export class When {
   @Prop() titulo: string;
   @Prop() hora: string;
   @Prop() descripcion: string;
+  @Prop() ubicacion: string;
   @Prop({
     type: Date,
     default: Date.now,
