@@ -23,6 +23,11 @@ export class WeddingController {
     return await this.weddingService.getTitulo(titulo);
   }
 
+  @Get('invitacion/:titulo')
+  async getInvitacion(@Param('titulo') titulo: string) {
+    return await this.weddingService.getInvitacion(titulo);
+  }
+
   @Post()
   async create(@Body() create: WeddingRequestDto) {
     return await this.weddingService.create(create);

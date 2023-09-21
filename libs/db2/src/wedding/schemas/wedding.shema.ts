@@ -12,6 +12,9 @@ export class Wedding {
   @Prop()
   tituloPagina: string;
   
+  @Prop()
+  invitacion: string;
+
   @Prop({ type: mongoose.Schema.Types.ObjectId, ref: Usuario.name })
   idUsuario: Usuario;
   

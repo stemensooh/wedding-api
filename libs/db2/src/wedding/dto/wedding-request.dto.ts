@@ -31,6 +31,7 @@ export interface HeaderRequestDto {
   tituloPagina: string;
   mensaje: string;
   foto: string;
+  invitacion: string;
     //foto: ImagenDto;
 }
 

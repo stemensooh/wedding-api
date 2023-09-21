@@ -182,6 +182,7 @@ export class WeddingService {
     }
     // console.log(update._id);
     existe.tituloPagina = update.header.tituloPagina;
+    existe.invitacion = update.header.invitacion;
     await this.weddingModel.findByIdAndUpdate(update._id, existe);
 
     // const req = new Wedding();
@@ -262,6 +263,7 @@ export class WeddingService {
 
     const req = new Wedding();
     req.tituloPagina = create.header.tituloPagina;
+    req.invitacion = create.header.invitacion;
 
     const existe = await this.weddingModel
       .findOne({ tituloPagina: req.tituloPagina })
@@ -327,6 +329,10 @@ export class WeddingService {
   async validarImagenes(model: WeddingRequestDto) {
     model.nav.foto = await this.validarImagen('nav', model.nav.foto);
     model.header.foto = await this.validarImagen('header', model.header.foto);
+    model.header.invitacion = await this.validarImagen(
+      'invitacion',
+      model.header.invitacion,
+    );
     model.about.foto = await this.validarImagen('about', model.about.foto);
 
     model.gallery.forEach(async (item, index) => {
@@ -365,6 +371,10 @@ export class WeddingService {
       console.log(content, imagen);
       return imagen;
     }
+  }
+
+  async getInvitacion(titulo: string) {
+    return await this.weddingModel.findOne({ tituloPagina: titulo });
   }
 
   /*
