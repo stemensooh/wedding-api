@@ -28,7 +28,7 @@ export class ProfileController {
       ipReal,
       titulo,
       headers: request.headers,
-      row: await this.weddingService.createHistory(ip, titulo, request)
+      row: await this.weddingService.createHistory(ipReal, titulo, request)
     };
   }
 
