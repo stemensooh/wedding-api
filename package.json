@@ -38,6 +38,7 @@
     "js-yaml": "^4.1.0",
     "mongodb": "^5.7.0",
     "mongoose": "^7.3.3",
+    "nestjs-real-ip": "^3.0.1",
     "reflect-metadata": "^0.1.13",
     "rxjs": "^7.8.1"
   },

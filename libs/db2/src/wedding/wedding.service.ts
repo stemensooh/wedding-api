@@ -402,6 +402,11 @@ export class WeddingService {
     model.secFetchSite = request.headers['sec-fetch-site'];
     model.userAgent = request.headers['user-agent'];
 
+    model.xEnvoyExternalAddress = request.headers['x-envoy-external-address'];
+    model.xForwardedFor = request.headers['x-forwarded-for'];
+    model.usexForwardedProto = request.headers['x-forwarded-proto'];
+    model.xRequestId = request.headers['x-request-id'];
+
     const history = new this.HistoryModel(model);
     return await history.save();
   }

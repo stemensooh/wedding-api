@@ -21,6 +21,12 @@ export class ViewHistory {
   @Prop() secFetchMode: string;
   @Prop() secFetchSite: string;
   @Prop() userAgent: string;
+  
+  @Prop() xEnvoyExternalAddress: string;
+  @Prop() xForwardedFor: string;
+  @Prop() usexForwardedProto: string;
+  @Prop() xRequestId: string;
+
   @Prop() ip: string;
   @Prop() titulo: string;
   
