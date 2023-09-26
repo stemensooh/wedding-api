@@ -13,6 +13,7 @@ import { Testimonial, TestimonialSchema } from './schemas/testimonial.schema';
 import { When, WhenSchema } from './schemas/when.schema';
 import { Usuario, UsuarioSchema } from '../usuario/schemas/usuario.schema';
 import { Imagen, ImagenSchema } from './schemas/image.schema';
+import { ViewHistory, ViewHistorySchema } from './schemas/viewHistory.schema';
 
 @Module({
   imports: [
@@ -29,6 +30,7 @@ import { Imagen, ImagenSchema } from './schemas/image.schema';
       { name: When.name, schema: WhenSchema },
       { name: Usuario.name, schema: UsuarioSchema },
       { name: Imagen.name, schema: ImagenSchema },
+      { name: ViewHistory.name, schema: ViewHistorySchema },
     ]),
   ],
   providers: [WeddingService],

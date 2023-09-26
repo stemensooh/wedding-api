@@ -15,6 +15,7 @@ import { When } from './schemas/when.schema';
 import { WeddingRequestDto } from './dto/wedding-request.dto';
 import { UploadApiOptions, v2 as cloudinary } from 'cloudinary';
 import configuration from '@app/db2/config/configuration';
+import { ViewHistory } from './schemas/viewHistory.schema';
 
 @Injectable()
 export class WeddingService {
@@ -126,6 +127,9 @@ export class WeddingService {
 
     @InjectModel(When.name)
     private WhenModel: Model<When>,
+
+    @InjectModel(ViewHistory.name)
+    private HistoryModel: Model<ViewHistory>,
   ) {
     cloudinary.config({
       cloud_name: configuration().CLOUDINARY.NAME,
@@ -377,6 +381,30 @@ export class WeddingService {
     return await this.weddingModel.findOne({ tituloPagina: titulo });
   }
 
+  async getHistory(titulo: string) {
+    const wedding = await this.weddingModel.findOne({ tituloPagina: titulo });
+
+    return await this.HistoryModel.find({weddingId: wedding.id});
+  }
+
+  async createHistory(ip: string, titulo: string, request: Request) {
+    const wedding = await this.weddingModel.findOne({ tituloPagina: titulo });
+
+    const model = new ViewHistory();
+    model.ip = ip;
+    model.titulo = titulo;
+    model.weddingId = wedding.id;
+    model.secChUa = request.headers['sec-ch-ua'];
+    model.secChUaMobile = request.headers['sec-ch-ua-mobile'];
+    model.secChUaPlatform = request.headers['sec-ch-ua-platform'];
+    model.secFetchDest = request.headers['sec-fetch-dest'];
+    model.secFetchMode = request.headers['sec-fetch-mode'];
+    model.secFetchSite = request.headers['sec-fetch-site'];
+    model.userAgent = request.headers['user-agent'];
+
+    const history = new this.HistoryModel(model);
+    return await history.save();
+  }
   /*
   async create(create: WeddingRequestDto) {
     const wedding = new this.weddingModel(create);

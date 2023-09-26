@@ -26,6 +26,8 @@ async function bootstrap() {
     optionsSuccessStatus: 204,
   });
 
+  // app.use(requestIp.mw());
+
   const options = new DocumentBuilder()
     .setTitle('Chat example')
     .setDescription('Chat API description')

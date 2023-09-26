@@ -1,6 +1,6 @@
 import { WeddingRequestDto } from '@app/db2/wedding/dto/wedding-request.dto';
 import { WeddingService } from '@app/db2/wedding/wedding.service';
-import { Body, Controller, Get, Param, Post, Put } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, Put, Req } from '@nestjs/common';
 import { Public } from 'src/core/constants/jwt.secret';
 
 @Public()
